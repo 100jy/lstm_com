@@ -1,0 +1,43 @@
+---
+title: "longterm_timedependecy"
+author: "100jy"
+date: '2019 11 16 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## ACF그림
+
+긴term의 time lag을 가진 dependency의 존재확인
+
+```{r cars}
+library("astsa")
+setwd("C:/Users/wnduq/Desktop")
+부전1동_유동_last<-read.csv("유동인구_부전1동.csv")
+
+#하루간 데이터의 상관(패턴존재x)
+data=부전1동_유동_last$label[1:24]
+data=data+rnorm(24,0,0.1)
+acf2(data)
+
+#한달간 데이터의 상관(제법 유의한 상관있을 것으로 보이는 lag이 보임..)
+data=부전1동_유동_last$label[1:(24*28)]
+data=data+rnorm(24*28,0,0.1)
+acf2(data)
+
+#세달간 데이터의 상관(긴term을 가지고 뚜렷한 상관을 보임,계절성도 확인가능)
+data=부전1동_유동_last$label[1:(24*28*3)]
+data=data+rnorm(24*28*3,0,0.1)
+acf2(data)
+
+#일년간 데이터의 상관(긴term을 가지고 뚜렷한 상관을 보임)
+data=부전1동_유동_last$label[1:(24*28*12)]
+data=data+rnorm(24*12*28,0,0.1)
+acf2(data)
+
+```
+
+
